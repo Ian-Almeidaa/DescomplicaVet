@@ -39,11 +39,11 @@ Google Fonts, WhatsApp (`wa.link`), Instagram e checkout Kiwify continuam extern
 
 ## Publicação
 
-O Worker foi publicado em [descomplicavetmt.studiocriandoweb.workers.dev](https://descomplicavetmt.studiocriandoweb.workers.dev). Veja [a publicação e o estado do domínio](docs/preparacao-cloudflare/PUBLICACAO.md); a associação do domínio principal ainda depende da ativação da zona DNS.
+O Worker foi publicado em [descomplicavetmt.studiocriandoweb.workers.dev](https://descomplicavetmt.studiocriandoweb.workers.dev). A zona DNS está ativa e os domínios `descomplicavetmt.com.br` e `www.descomplicavetmt.com.br` estão associados ao Worker. Veja [a publicação e o estado da transferência](docs/preparacao-cloudflare/PUBLICACAO.md), incluindo a validação do tráfego após a desconexão do domínio no Lovable.
 
 Leia [o resultado e o roteiro de transferência](docs/preparacao-cloudflare/RESULTADO.md). A configuração de origem é `wrangler.jsonc`; o build gera `dist/server/wrangler.json` e `dist/client/`. Publique o Worker e os arquivos estáticos juntos, pelo Wrangler, depois da autorização de acesso à conta e publicação. Enviar somente `dist/client` perde as rotas renderizadas no servidor e o sitemap.
 
-O Worker se chama `descomplicavetmt`, na conta `studiocriandoweb@gmail.com`. Não há rotas de domínio personalizadas configuradas nesta etapa. Para conferir a versão pública, use `node scripts/verify-public-worker.mjs https://descomplicavetmt.studiocriandoweb.workers.dev`.
+O Worker se chama `descomplicavetmt`, na conta `studiocriandoweb@gmail.com`. Os dois domínios de produção estão declarados em `wrangler.jsonc` com `custom_domain: true`; preserve essa configuração nas próximas publicações. Para conferir a versão pública, use `node scripts/verify-public-worker.mjs https://descomplicavetmt.com.br` e repita com `https://www.descomplicavetmt.com.br`. O endereço `workers.dev` também aceita a mesma verificação.
 
 ## Backups e histórico
 

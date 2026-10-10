@@ -5,6 +5,10 @@
   "compatibility_date": "2026-10-10",
   "compatibility_flags": ["nodejs_compat"],
   "workers_dev": true,
+  "routes": [
+    { "pattern": "descomplicavetmt.com.br", "custom_domain": true },
+    { "pattern": "www.descomplicavetmt.com.br", "custom_domain": true },
+  ],
   "observability": {
     "enabled": true,
     "logs": { "enabled": true, "head_sampling_rate": 1 },

@@ -30,11 +30,11 @@ Wrangler autenticado na conta correta por OAuth. As credenciais ficam criptograf
 
 A conexão MCP anterior continua sendo usada para consultas de leitura; o upload foi feito com o Wrangler autorizado. O login não altera os outros Workers existentes na conta.
 
-## Domínio principal: transferência ainda em andamento
+## Domínios associados ao Worker
 
-O usuário informou que já alterou os servidores DNS no Registro.br. Após a publicação, a API Cloudflare ainda retornava a zona `descomplicavetmt.com.br` como `pending`, sem Custom Domain associado ao Worker.
+O Registro.br e os resolvedores públicos Google e Cloudflare confirmaram a delegação para o Cloudflare em 10/10/2026. A zona foi ativada às 03:25 de Cuiabá (`2026-10-10T07:25:49.401450Z`).
 
-Nas consultas públicas registradas em `dns-pos-publicacao.json`, os resolvedores 1.1.1.1 e 8.8.8.8 ainda retornaram `a.sec.dns.br` e `b.sec.dns.br`, e o IP do Lovable `185.158.133.1`. O DS antigo ainda apareceu em 1.1.1.1, enquanto 8.8.8.8 já retornou ausência de DS. A consulta técnica RDAP posterior, em `registro-pos-publicacao.json`, confirmou `delegationSigned: false` e alteração do registro às 01:22 de Cuiabá, ainda com os nameservers antigos. Portanto, a retirada da assinatura anterior foi aplicada no registro, mas a delegação para os nameservers Cloudflare ainda não foi observada.
+Os dois registros A antigos para `185.158.133.1` foram removidos pelo usuário. Em seguida, `wrangler triggers deploy` associou o domínio principal e o `www` ao Worker existente, sem trocar sua versão de código. A configuração de origem `wrangler.jsonc` contém os dois Custom Domains e o build foi refeito; tipos, TypeScript e ESLint passaram.
 
 Os nameservers atribuídos pelo Cloudflare continuam sendo:
 
@@ -43,8 +43,18 @@ mike.ns.cloudflare.com
 nena.ns.cloudflare.com
 ```
 
-Nenhum apontamento DNS foi alterado pelo agente nesta etapa. O Worker está independente e público em `workers.dev`; **o domínio principal ainda não foi comprovado servindo este Worker**.
+O Cloudflare confirmou os dois vínculos habilitados em produção:
 
-Próxima ação: confirmar a ativação da zona e a transição do DS, associar o domínio principal ao Worker, definir o comportamento de `www` e repetir a verificação no domínio. Somente depois dessa validação deve ser removida a conexão do domínio no Lovable. Reativar DNSSEC com a chave do Cloudflare após estabilizar a delegação.
+- `descomplicavetmt.com.br` → `descomplicavetmt`, vínculo `0d616e2280fe85d6354e8961bbd4f41b11a7259f`.
+- `www.descomplicavetmt.com.br` → `descomplicavetmt`, vínculo `a62b9a4bb856f6f3b69e464971da6c835bf568ae`.
+- DNS gerenciado pelo Worker: registros AAAA para `100::`, sem apontamento para o Lovable. Esse endereço é o marcador usado pelo Cloudflare para uma origem sem servidor externo; preserve os registros gerenciados.
 
-O diagnóstico anterior, em `CONEXAO-DNS.md`, é um retrato anterior à publicação. O guia oficial exige [zona ativa para associar um Custom Domain](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/); consulte também a [migração dos nameservers e DNSSEC](https://developers.cloudflare.com/dns/zone-setups/full-setup/setup/).
+### Validação do tráfego
+
+Às 03:42 de Cuiabá, `scripts/verify-public-worker.mjs` passou no `www`: páginas, sitemap, arquivos estáticos, quatro imagens com SHA-256 original, HTTPS, CSP/nonce, demais cabeçalhos e HEAD. O endereço `workers.dev` também passou.
+
+O domínio principal ainda entregou a publicação antiga do Lovable, apesar do vínculo correto no Cloudflare. A causa provável é a precedência do vínculo SaaS antigo; a [documentação de prioridade de hostname](https://developers.cloudflare.com/ssl/reference/certificate-and-hostname-priority/#hostname-priority) descreve esse comportamento. O usuário foi orientado a desconectar apenas o domínio em Project → Settings → Domains no Lovable, mantendo o projeto salvo. **A transferência do tráfego principal permanece pendente até o teste passar após a desconexão.**
+
+O certificado Universal SSL da zona está ativo; os certificados avançados emitidos para os Custom Domains estavam em provisionamento. DNSSEC continua desativado e as consultas públicas não encontraram DS antigo. Reativar DNSSEC com a chave do Cloudflare é uma etapa posterior à estabilização da transferência.
+
+`CONEXAO-DNS.md` registra o diagnóstico histórico anterior à publicação. A integração de publicação automática com GitHub ainda não foi configurada. Consulte também [Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/).
