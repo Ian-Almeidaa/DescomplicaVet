@@ -57,6 +57,6 @@ Durante a associação, o domínio principal ainda entregava a publicação anti
 
 O certificado Universal SSL da zona e um certificado avançado cobrindo os dois hostnames estão ativos. A conexão TLS foi validada pelos testes nos dois endereços. DNSSEC continua desativado e as consultas públicas não encontraram DS antigo. Reativar DNSSEC com a chave do Cloudflare é uma etapa posterior à estabilização da transferência.
 
-Para preservar o redirecionamento HTTP → HTTPS que antes era feito pelo serviço antigo, use a opção da zona **SSL/TLS → Edge Certificates → Always Use HTTPS**. Essa opção é gerenciada no Cloudflare, fora do `wrangler.jsonc`, e deve permanecer ativada nas próximas atualizações.
+O usuário ativou **SSL/TLS → Edge Certificates → Always Use HTTPS**, e a API confirmou `always_use_https: on`. O teste público passou nos dois hostnames: HTTP responde com 301 para o endereço HTTPS correspondente, preservando caminhos e parâmetros de consulta, tanto para páginas quanto para arquivos estáticos. As verificações completas de páginas, imagens e cabeçalhos em HTTPS também passaram novamente após a ativação. Essa opção é gerenciada no Cloudflare, fora do `wrangler.jsonc`, e deve permanecer ativada nas próximas atualizações.
 
 `CONEXAO-DNS.md` registra o diagnóstico histórico anterior à publicação. A integração de publicação automática com GitHub ainda não foi configurada. Consulte também [Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/).
