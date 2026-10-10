@@ -51,10 +51,12 @@ O Cloudflare confirmou os dois vínculos habilitados em produção:
 
 ### Validação do tráfego
 
-Às 03:42 de Cuiabá, `scripts/verify-public-worker.mjs` passou no `www`: páginas, sitemap, arquivos estáticos, quatro imagens com SHA-256 original, HTTPS, CSP/nonce, demais cabeçalhos e HEAD. O endereço `workers.dev` também passou.
+Após o usuário desconectar o domínio no Lovable, `scripts/verify-public-worker.mjs` passou nos dois domínios de produção às 03:45 de Cuiabá: páginas, sitemap, arquivos estáticos, quatro imagens com SHA-256 original, HTTPS, CSP/nonce, demais cabeçalhos e HEAD. O endereço `workers.dev` também passou. O domínio principal e o `www` agora entregam a versão independente do Worker, sem referências ao runtime do Lovable.
 
-O domínio principal ainda entregou a publicação antiga do Lovable, apesar do vínculo correto no Cloudflare. A causa provável é a precedência do vínculo SaaS antigo; a [documentação de prioridade de hostname](https://developers.cloudflare.com/ssl/reference/certificate-and-hostname-priority/#hostname-priority) descreve esse comportamento. O usuário foi orientado a desconectar apenas o domínio em Project → Settings → Domains no Lovable, mantendo o projeto salvo. **A transferência do tráfego principal permanece pendente até o teste passar após a desconexão.**
+Durante a associação, o domínio principal ainda entregava a publicação antiga, apesar do vínculo correto no Cloudflare. Essa resposta cessou após a desconexão do domínio no Lovable, comportamento compatível com a [precedência do vínculo SaaS antigo](https://developers.cloudflare.com/ssl/reference/certificate-and-hostname-priority/#hostname-priority). O projeto Lovable foi mantido como backup pelo usuário; o site atual não depende dele.
 
-O certificado Universal SSL da zona está ativo; os certificados avançados emitidos para os Custom Domains estavam em provisionamento. DNSSEC continua desativado e as consultas públicas não encontraram DS antigo. Reativar DNSSEC com a chave do Cloudflare é uma etapa posterior à estabilização da transferência.
+O certificado Universal SSL da zona e um certificado avançado cobrindo os dois hostnames estão ativos. A conexão TLS foi validada pelos testes nos dois endereços. DNSSEC continua desativado e as consultas públicas não encontraram DS antigo. Reativar DNSSEC com a chave do Cloudflare é uma etapa posterior à estabilização da transferência.
+
+Para preservar o redirecionamento HTTP → HTTPS que antes era feito pelo serviço antigo, use a opção da zona **SSL/TLS → Edge Certificates → Always Use HTTPS**. Essa opção é gerenciada no Cloudflare, fora do `wrangler.jsonc`, e deve permanecer ativada nas próximas atualizações.
 
 `CONEXAO-DNS.md` registra o diagnóstico histórico anterior à publicação. A integração de publicação automática com GitHub ainda não foi configurada. Consulte também [Custom Domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/).
