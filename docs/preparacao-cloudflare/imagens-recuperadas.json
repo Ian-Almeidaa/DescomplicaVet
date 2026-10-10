@@ -1,0 +1,42 @@
+[
+  {
+    "filename": "capa-cris.png",
+    "source": "https://descomplicavetmt.com.br/__l5e/assets-v1/e7e5e25b-f54c-4df6-9abd-7b6ce08f6db5/capa-cris.png",
+    "destination": "public/images/capa-cris.png",
+    "bytes": 2136399,
+    "width": 1254,
+    "height": 1254,
+    "sha256": "2ae8277654d6680e45d3f60afc72d6d5a610001d2b432c8036707fd3b5336de9",
+    "recoveredAt": "2026-10-10T04:41:21.491Z"
+  },
+  {
+    "filename": "capa-ebook.png",
+    "source": "https://descomplicavetmt.com.br/__l5e/assets-v1/305fd59b-e4f8-4937-988f-c737613e9a0b/capa-ebook.png",
+    "destination": "public/images/capa-ebook.png",
+    "bytes": 2243056,
+    "width": 1024,
+    "height": 1536,
+    "sha256": "b9761b89aae2acbff51f8ca5fa9fe2084abe4ff190f27dd0ebf796ce7cea3679",
+    "recoveredAt": "2026-10-10T04:41:22.101Z"
+  },
+  {
+    "filename": "descomplica-circle.png",
+    "source": "https://descomplicavetmt.com.br/__l5e/assets-v1/202e157b-9503-45d4-8e63-d26c7c983921/descomplica-circle.png",
+    "destination": "public/images/descomplica-circle.png",
+    "bytes": 442397,
+    "width": 1000,
+    "height": 1000,
+    "sha256": "a2714371484b7a8cad0351e7a9db935739258e93bed19a8d503893df84582d4a",
+    "recoveredAt": "2026-10-10T04:41:22.522Z"
+  },
+  {
+    "filename": "descomplica-mark.png",
+    "source": "https://descomplicavetmt.com.br/__l5e/assets-v1/e2682d47-8bb2-41cc-a01c-a970ed2ab512/descomplica-mark.png",
+    "destination": "public/images/descomplica-mark.png",
+    "bytes": 77130,
+    "width": 512,
+    "height": 512,
+    "sha256": "e30f428cc3753cf0687faf99853eb11746607ded172df318dc69afafbf92c495",
+    "recoveredAt": "2026-10-10T04:41:22.817Z"
+  }
+]
